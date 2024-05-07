@@ -4,12 +4,12 @@ interface IEvents {
     trigger<T extends object>(event: string, context?: Partial<T>): (data: T) => void;
 }
 
-export type TCategory = 'софт-скилл' | 'другое' | 'дополнительное' | 'кнопка' | 'хард-скилл';
+export type TCategory = 'софт-скил' | 'другое' | 'дополнительное' | 'кнопка' | 'хард-скилл';
 
 export type TPaymentMethod = 'Онлайн' | 'При получении';
 
 export interface ICard {
-	_id: string;
+	id: string;
 	title: string;
 	category: TCategory;
 	image: string;
@@ -24,45 +24,49 @@ export interface IUser {
 
 export interface IOrder {
 	address: string;
-	payment: TPaymentMethod;
+	payment: TPaymentMethod | null;
 }
 
 export interface ICardsData {
-	_cards: ICard[];
-    _preview: string | null;
-    events: IEvents;
-    getCard(cardID: string): ICard;
+    get cards(): ICard[];
+    set cards(cards: ICard[]);
+    getCard(cardId: string): ICard;
 }
 
 export type TCardPublic = Pick<ICard, 'title' | 'category' | 'image' | 'price'>;
 
 export interface IBasketData {
-	cards: ICard[];
-	total: number;
-    events: IEvents;
     addCard(card: ICard): void;
-    deleteCard(cardID: string): void;
+    deleteCard(cardId: string): void;
     deleteAllCards(): void;
-    getCards() : ICard[];
+    get cards() : ICard[];
 }
 
 export interface IUserData {
-    email: Pick<IUser, 'email'>;
-    phone: Pick<IUser, 'phone'>;
+    _email: string;
+    _phone: string;
     events: IEvents;
-    setEmail(email: Pick<IUser, 'email'>): void;
-    setPhone(phone: Pick<IUser, 'phone'>): void;
+    set email(email: string);
+    set phone(phone: string);
+    get userInfo(): Record<keyof IUser, string>;
     clearData(): void;
     checkUserInfo(data: Record<keyof IUser, string>): boolean;
 }
 
 export interface IOrderData {
-    payment: Pick<IOrder, 'payment'>;
-    address: Pick<IOrder, 'address'>;
-    total: number;
     events: IEvents;
-    setPayment(paymentMethod: Pick<IOrder, 'payment'>): void;
-    setAddress(address: Pick<IOrder, 'address'>): void;
+    set payment(paymentMethod: TPaymentMethod);
+    set address(address: string);
+    get orderInfo(): Record<keyof IOrder, string>
     clearData(): void;
     checkOrderInfo(data: Record<keyof IOrder, string>): boolean;
+}
+
+export interface IMakeOrder{
+    payment: string;
+    email: string;
+    phone: string;
+    address: string;
+    total: number;
+    items: string[];
 }
