@@ -1,19 +1,21 @@
-import { Api } from "./base/api";
-import { IMakeOrder } from "../types";
+import { IApi, IMakeOrder, ICard, IGetCatalogApiResponse, IPostOrderApiResponse } from "../types";
 
-export class LarekApi extends Api {
-    readonly baseUrl: string;
-    protected options: RequestInit;
+export class LarekApi {
+    private _baseApi: IApi;
 
-    getCatalog() {
-        return this.get('/product/')
+    constructor(baseApi: IApi) {
+        this._baseApi = baseApi;
     }
 
-    getItem(id: string) {
-        return this.get(`/product/${id}`)
+    getCatalog(): Promise<IGetCatalogApiResponse> {
+        return this._baseApi.get<IGetCatalogApiResponse>('/product/').then((cards: IGetCatalogApiResponse) => cards);
     }
 
-    makeOrder(data: IMakeOrder) {
-        return this.post('/order', data)
+    getItem(id: string): Promise<ICard> {
+        return this._baseApi.get(`/product/${id}`).then((card: ICard) => card);
+    }
+
+    makeOrder(data: IMakeOrder): Promise<IPostOrderApiResponse> {
+        return this._baseApi.post('/order', data).then((res: IPostOrderApiResponse) => res);
     }
 }

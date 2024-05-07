@@ -9,22 +9,22 @@ export type TCategory = 'софт-скил' | 'другое' | 'дополнит
 export type TPaymentMethod = 'Онлайн' | 'При получении';
 
 export interface ICard {
-	id: string;
-	title: string;
-	category: TCategory;
-	image: string;
-	description: string;
-	price: number;
+    id: string;
+    title: string;
+    category: TCategory;
+    image: string;
+    description: string;
+    price: number;
 }
 
 export interface IUser {
-	email: string;
-	phone: string;
+    email: string;
+    phone: string;
 }
 
 export interface IOrder {
-	address: string;
-	payment: TPaymentMethod | null;
+    address: string;
+    payment: TPaymentMethod | null;
 }
 
 export interface ICardsData {
@@ -39,7 +39,7 @@ export interface IBasketData {
     addCard(card: ICard): void;
     deleteCard(cardId: string): void;
     deleteAllCards(): void;
-    get cards() : ICard[];
+    get cards(): ICard[];
 }
 
 export interface IUserData {
@@ -62,11 +62,29 @@ export interface IOrderData {
     checkOrderInfo(data: Record<keyof IOrder, string>): boolean;
 }
 
-export interface IMakeOrder{
+export interface IMakeOrder {
     payment: string;
     email: string;
     phone: string;
     address: string;
     total: number;
     items: string[];
+}
+
+export type ApiPostMethods = 'POST' | 'PUT' | 'DELETE';
+
+export interface IApi {
+    baseUrl: string;
+    get<T>(uri: string): Promise<T>;
+    post<T>(uri: string, data: object, method?: ApiPostMethods): Promise<T>;
+}
+
+export interface IGetCatalogApiResponse {
+    items: ICard[];
+    total: number;
+}
+
+export interface IPostOrderApiResponse {
+    total: number;
+    id: string;
 }
