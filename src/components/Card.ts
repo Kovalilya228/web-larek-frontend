@@ -5,7 +5,7 @@ import { Component } from "./base/Component";
 
 export class Card extends Component<ICard> {
     protected _id: string;
-    protected events: IEvents;
+    events: IEvents;
     submitButton: HTMLButtonElement;
     protected _category: HTMLElement;
     protected _title: HTMLElement;
@@ -37,9 +37,9 @@ export class Card extends Component<ICard> {
                 this.submitButton = this.container.querySelector('.card__button');
                 this.submitValue = 'Купить';
                 this.submitButton.addEventListener('click', () => {
-                    this.events.emit('card:add', { card: this });
-                })
-
+                    this.events.emit('card:add', {card: this});
+                    console.log('click');
+                });
                 break;
             case 'li':
                 this.deleteButton = this.container.querySelector('.card__button');
@@ -50,10 +50,6 @@ export class Card extends Component<ICard> {
 
                 break;
         }
-    }
-
-    addListener(eventName: string,) {
-
     }
 
     set submitValue(textContent: string) {

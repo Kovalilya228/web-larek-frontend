@@ -12,6 +12,7 @@ export class BasketData implements IBasketData {
 
     addCard(card: ICard) {
         this._cards.push(card);
+        this.events.emit('card:added');
     }
 
     deleteCard(cardId: string) {

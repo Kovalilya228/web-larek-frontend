@@ -6,12 +6,11 @@ export class Modal extends Component<HTMLElement> {
     content: HTMLElement;
     closeButton: HTMLButtonElement;
 
-    constructor(protected container: HTMLElement, events: IEvents, content: HTMLElement) {
+    constructor(protected container: HTMLElement, events: IEvents) {
         super(container);
         this.events = events;
         this.content = this.container.querySelector('.modal__content');
         this.closeButton = this.container.querySelector('.modal__close');
-        this.setContent(content);
         this.closeButton.addEventListener('click', () => {
             this.close();
         })

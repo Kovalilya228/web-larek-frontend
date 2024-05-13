@@ -32,7 +32,7 @@ const cardGalleryTemplate: HTMLTemplateElement = document.querySelector('#card-c
 const cardFullTemplate: HTMLTemplateElement = document.querySelector('#card-preview');
 const cardCompactTemplate: HTMLTemplateElement = document.querySelector('#card-basket');
 const cardsCatalog = new CardsCatalog(cardsCatalogElement);
-
+const modal = new Modal(modalElement, events);
 // Testing of Api
 
 larekApi.getCatalog()
@@ -40,11 +40,11 @@ larekApi.getCatalog()
         events.emit('cards:loaded', { cards: cards })
     })
 
-larekApi.getItem(testCard.id)
-// .then(card => console.log(card));
+// larekApi.getItem(testCard.id)
+// // .then(card => console.log(card));
 
-larekApi.makeOrder(data)
-// .then(res => console.log(res));
+// larekApi.makeOrder(data)
+// // .then(res => console.log(res));
 
 events.on('cards:loaded', (cards: { cards: { items: ICard[] } }) => {
 
@@ -62,16 +62,33 @@ events.on('card:open', (data: { card: Card }) => {
     const cardFull = new Card(cloneTemplate(cardFullTemplate), events);
     const isInBasket = basketData.cards.find(card => card.id === data.card.id);
     if (isInBasket) cardFull.submitValue = 'В корзину';
-    const modal = new Modal(modalElement, events, cardFull.render(cardsData.getCard(cardsData.preview)));
+    modal.setContent(cardFull.render(cardsData.getCard(cardsData.preview)));
     modal.open();
 })
 
-events.on('card:add', (data: { card: Card }) => {
+// events.on('card:add', (data: { card: Card }) => {
+//     basketData.addCard(cardsData.getCard(data.card.id));
+//     data.card.submitValue = 'В корзину';
+    
+//     console.log(basketData.cards);
+//     // cardsData.preview = data.card.id;
+//     // const cardFull = new Card(cloneTemplate(cardFullTemplate), events);
+//     // const modal = new Modal(modalElement, events, cardFull.render(cardsData.getCard(cardsData.preview)));
+//     // modal.open();
+// })
+
+events.on('card:add', cardAdd);
+
+function cardAdd(data: { card: Card }) {
     basketData.addCard(cardsData.getCard(data.card.id));
-    data.card.submitValue = 'В корзину';
-    data.card.submitButton.removeEventListener('click', () => { })
-    // cardsData.preview = data.card.id;
-    // const cardFull = new Card(cloneTemplate(cardFullTemplate), events);
-    // const modal = new Modal(modalElement, events, cardFull.render(cardsData.getCard(cardsData.preview)));
-    // modal.open();
-})
+    data.card.submitValue = 'В корзину'; 
+    events.emit('card:toBasket', {button: data.card.submitButton});
+}
+
+events.on('card:toBasket', cardBasket);
+
+function cardBasket(data: {button: HTMLButtonElement}) {
+    data.button.addEventListener('click', () => {
+        modal
+    })
+}
