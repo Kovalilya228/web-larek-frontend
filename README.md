@@ -213,7 +213,7 @@ export type TCardPublic = Pick<ICard, 'title' | 'category' | 'image' | 'price'>;
 - setData(cardData: ICard): void - заполнить атрибуты карточки данными.
 - open(cardID: string) - открыть карточку.
 
-#### Класс CardCatalog
+#### Класс CardsCatalog
 Отвечает за отображение блока с карточками на главной странице.\
 В конструкторе принимается селектор элемента, в котором размещаются карточки.
 

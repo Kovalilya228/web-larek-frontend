@@ -6,7 +6,7 @@ interface IEvents {
 
 export type TCategory = 'софт-скил' | 'другое' | 'дополнительное' | 'кнопка' | 'хард-скилл';
 
-export type TPaymentMethod = 'Онлайн' | 'При получении';
+export type TPaymentMethod = 'Онлайн' | 'При получении' | 'online' | 'offline';
 
 export interface ICard {
     id: string;
@@ -14,7 +14,7 @@ export interface ICard {
     category: TCategory;
     image: string;
     description: string;
-    price: number;
+    price: string;
 }
 
 export interface IUser {
