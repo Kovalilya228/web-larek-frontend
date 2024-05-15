@@ -1,5 +1,5 @@
-import {ICard, ICardsData} from '../types/index';
-import {IEvents} from './base/events';
+import { ICard, ICardsData } from '../types/index';
+import { IEvents } from './base/events';
 
 export class CardsData implements ICardsData {
     protected _cards: ICard[];

@@ -19,16 +19,6 @@ export class UserData implements IUserData {
     }
 
     get userInfo() {
-        return {email: this._email, phone: this._phone};
-    }
-
-    clearData() {
-        this._email = '';
-        this._phone = '';
-    }
-
-    checkUserInfo(data: Record<keyof IUser, string>) {
-        if (data) return true
-        return false
+        return { email: this._email, phone: this._phone };
     }
 }

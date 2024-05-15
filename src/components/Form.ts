@@ -6,16 +6,15 @@ interface IForm {
 }
 
 export class Form extends Component<IForm> {
-    formName: string;
     events: IEvents;
-    orderFields: NodeListOf<HTMLInputElement>;
     submitButton: HTMLButtonElement;
     isValid: boolean;
+    formErrors: HTMLElement;
 
     constructor(protected container: HTMLFormElement, events: IEvents, protected handleSubmit: Function) {
         super(container);
-        this.formName = this.container.name;
         this.events = events;
+        this.formErrors = this.container.querySelector('.form__errors');
         this.submitButton = this.container.querySelector('.modal__actions').querySelector('.button');
         this.container.addEventListener('submit', (evt) => {
             evt.preventDefault();
@@ -26,7 +25,7 @@ export class Form extends Component<IForm> {
         })
     }
 
-    setValid() {
+    setButtonState() {
         if (this.isValid) {
             this.submitButton.removeAttribute('disabled');
         } else {
@@ -34,5 +33,3 @@ export class Form extends Component<IForm> {
         }
     }
 }
-// Пересмотреть возможность реализации универсальной формы. Возможно лучше сделать 2 разные,
-// для ордера и для контактс.

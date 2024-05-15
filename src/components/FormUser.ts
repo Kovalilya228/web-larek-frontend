@@ -1,4 +1,3 @@
-import { isEmpty } from "../utils/utils";
 import { Form } from "./Form";
 import { IEvents } from "./base/events";
 
@@ -16,6 +15,15 @@ export class FormUser extends Form {
     }
 
     checkValid() {
-        this.isValid = (isEmpty(this.phone.value) || isEmpty(this.email.value)) ? false : true;
+        if (this.phone.value === '') {
+            this.formErrors.textContent = 'Вы не указали номер телефона.';
+            this.isValid = false;
+        } else if (this.email.value === '') {
+            this.formErrors.textContent = 'Вы не указали электронную почту.';
+            this.isValid = false;
+        } else {
+            this.formErrors.textContent = '';
+            this.isValid = true;
+        }
     }
 }

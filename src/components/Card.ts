@@ -13,6 +13,7 @@ export class Card extends Component<ICard> {
     protected _price: HTMLElement;
     protected _description: HTMLElement;
     protected deleteButton: HTMLButtonElement;
+    protected _indexLabel: HTMLElement;
 
     constructor(protected container: HTMLElement, events: IEvents) {
         super(container);
@@ -37,11 +38,11 @@ export class Card extends Component<ICard> {
                 this.submitButton = this.container.querySelector('.card__button');
                 this.submitValue = 'Купить';
                 this.submitButton.addEventListener('click', () => {
-                    this.events.emit('card:add', {card: this});
-                    console.log('click');
+                    this.events.emit('card:submit', { card: this });
                 });
                 break;
             case 'li':
+                this._indexLabel = this.container.querySelector('.basket__item-index');
                 this.deleteButton = this.container.querySelector('.card__button');
 
                 this.deleteButton.addEventListener('click', () => {
@@ -65,7 +66,13 @@ export class Card extends Component<ICard> {
     }
 
     set price(price: string) {
-        this._price.textContent = price ? price + ' синапсов' : 'Бесценно';
+        if (!price) {
+            this._price.textContent = 'Бесценно';
+            this.submitButton?.setAttribute('disabled', '');
+        } else {
+            this._price.textContent = price + ' синапсов';
+        }
+
     }
 
     get price() {
@@ -102,6 +109,14 @@ export class Card extends Component<ICard> {
 
     get image() {
         return this._image.src;
+    }
+
+    set indexLabel(index: string) {
+        this._indexLabel.textContent = index;
+    }
+
+    get indexLabel() {
+        return this._indexLabel.textContent;
     }
 
     delete() {

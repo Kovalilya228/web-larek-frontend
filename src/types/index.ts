@@ -15,6 +15,7 @@ export interface ICard {
     image: string;
     description: string;
     price: string;
+    index?: string
 }
 
 export interface IUser {
@@ -49,8 +50,6 @@ export interface IUserData {
     set email(email: string);
     set phone(phone: string);
     get userInfo(): Record<keyof IUser, string>;
-    clearData(): void;
-    checkUserInfo(data: Record<keyof IUser, string>): boolean;
 }
 
 export interface IOrderData {
@@ -58,8 +57,6 @@ export interface IOrderData {
     set payment(paymentMethod: TPaymentMethod);
     set address(address: string);
     get orderInfo(): Record<keyof IOrder, string>
-    clearData(): void;
-    checkOrderInfo(data: Record<keyof IOrder, string>): boolean;
 }
 
 export interface IMakeOrder {

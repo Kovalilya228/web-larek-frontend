@@ -1,5 +1,4 @@
 import { TPaymentMethod } from "../types";
-import { isEmpty } from "../utils/utils";
 import { Form } from "./Form";
 import { IEvents } from "./base/events";
 
@@ -20,17 +19,28 @@ export class FormOrder extends Form {
             this.payment_cash.setAttribute('disabled', '');
             this.payment_card.removeAttribute('disabled');
             this._paymentMethod = 'offline';
+            events.emit('form:check', { form: this });
         })
         this.payment_card.addEventListener('click', () => {
             this.events.emit('payment:select', { method: this.payment_card.name });
             this.payment_card.setAttribute('disabled', '');
             this.payment_cash.removeAttribute('disabled');
             this._paymentMethod = 'online';
+            events.emit('form:check', { form: this });
         })
     }
 
     checkValid() {
-        this.isValid = (isEmpty(this.address.value) || !this._paymentMethod) ? false : true;
+        if (this.address.value === '') {
+            this.formErrors.textContent = 'Вы не указали адрес доставки.';
+            this.isValid = false;
+        } else if (this._paymentMethod === undefined) {
+            this.formErrors.textContent = 'Вы не указали способ оплаты.';
+            this.isValid = false;
+        } else {
+            this.formErrors.textContent = '';
+            this.isValid = true;
+        }
     }
 
     get paymentMethod() {

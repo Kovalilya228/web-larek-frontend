@@ -20,6 +20,6 @@ export class Success extends Component<ISuccess> {
     }
 
     set price(price: string) {
-        this._price.textContent = price;
+        this._price.textContent = `Списано ${price} синапсов`;
     }
 }

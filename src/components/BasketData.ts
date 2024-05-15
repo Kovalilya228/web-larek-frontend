@@ -4,7 +4,8 @@ import { IBasketData, ICard } from "../types";
 export class BasketData implements IBasketData {
     protected _cards: ICard[];
     protected events: IEvents;
-    
+    protected _totalPrice: number = 0;
+
     constructor(events: IEvents) {
         this._cards = [];
         this.events = events;
@@ -23,7 +24,24 @@ export class BasketData implements IBasketData {
         this._cards = [];
     }
 
+    get totalPrice() {
+        this.findTotal();
+        return this._totalPrice;
+    }
+
+    findTotal() {
+        let temp: number = 0;
+        this.cards.map(card => {
+            temp += Number(card.price);
+        })
+        this._totalPrice = temp;
+    }
+
     get cards() {
         return this._cards;
+    }
+
+    get cardsId() {
+        return this._cards.map(card => card.id);
     }
 }

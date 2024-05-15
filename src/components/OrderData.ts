@@ -21,16 +21,6 @@ export class OrderData implements IOrderData {
     }
 
     get orderInfo() {
-        return {payment: this._payment, address: this._address}
-    }
-
-    clearData(): void {
-        this._payment = null;
-        this._address = '';
-    }
-
-    checkOrderInfo(data: Record<keyof IOrder, string>): boolean {
-        if (data) return true
-        return false
+        return { payment: this._payment, address: this._address }
     }
 }

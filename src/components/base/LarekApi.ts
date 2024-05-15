@@ -1,4 +1,4 @@
-import { IApi, IMakeOrder, ICard, IGetCatalogApiResponse, IPostOrderApiResponse } from "../types";
+import { IApi, IMakeOrder, ICard, IGetCatalogApiResponse, IPostOrderApiResponse } from "../../types";
 
 export class LarekApi {
     private _baseApi: IApi;
