@@ -19,14 +19,17 @@ export class FormOrder extends Form {
             this.payment_cash.setAttribute('disabled', '');
             this.payment_card.removeAttribute('disabled');
             this._paymentMethod = 'offline';
-            events.emit('form:check', { form: this });
+            events.emit('form:check', this);
         })
         this.payment_card.addEventListener('click', () => {
             this.events.emit('payment:select', { method: this.payment_card.name });
             this.payment_card.setAttribute('disabled', '');
             this.payment_cash.removeAttribute('disabled');
             this._paymentMethod = 'online';
-            events.emit('form:check', { form: this });
+            events.emit('form:check', this);
+        })
+        this.address.addEventListener('keydown', () => {
+            events.emit('form:check', this);
         })
     }
 
@@ -51,7 +54,7 @@ export class FormOrder extends Form {
         this._paymentMethod = data;
     }
 
-    get value() {
+    get orderInputsValue() {
         return { address: this.address.value, payment: this._paymentMethod }
     }
 }

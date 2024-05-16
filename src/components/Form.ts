@@ -21,7 +21,7 @@ export class Form extends Component<IForm> {
             this.handleSubmit();
         })
         this.container.addEventListener('change', () => {
-            events.emit('form:check', { form: this });
+            events.emit('form:check', this);
         })
     }
 

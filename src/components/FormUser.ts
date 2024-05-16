@@ -8,9 +8,15 @@ export class FormUser extends Form {
         super(container, events, handleSubmit);
         this.phone = this.container.elements.namedItem('phone') as HTMLInputElement;
         this.email = this.container.elements.namedItem('email') as HTMLInputElement;
+        this.phone.addEventListener('keydown', () => {
+            events.emit('form:check', this);
+        })
+        this.email.addEventListener('keydown', () => {
+            events.emit('form:check', this);
+        })
     }
 
-    get value() {
+    get userInputsValue() {
         return { phone: this.phone.value, email: this.email.value };
     }
 

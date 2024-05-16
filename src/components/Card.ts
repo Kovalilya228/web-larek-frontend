@@ -1,4 +1,4 @@
-import { ICard, TCardPublic, TCategory } from "../types";
+import { ICard, TCardPublic, TCategory, TCategoryClass } from "../types";
 import { IEvents } from "./base/events";
 import { CDN_URL } from '../utils/constants';
 import { Component } from "./base/Component";
@@ -27,7 +27,7 @@ export class Card extends Component<ICard> {
                 this._image = this.container.querySelector('.card__image');
 
                 this.container.addEventListener('click', () => {
-                    this.events.emit('card:open', { card: this });
+                    this.events.emit('card:open', this);
                 });
 
                 break;
@@ -38,7 +38,7 @@ export class Card extends Component<ICard> {
                 this.submitButton = this.container.querySelector('.card__button');
                 this.submitValue = 'Купить';
                 this.submitButton.addEventListener('click', () => {
-                    this.events.emit('card:submit', { card: this });
+                    this.events.emit('card:submit', this);
                 });
                 break;
             case 'li':
@@ -46,7 +46,7 @@ export class Card extends Component<ICard> {
                 this.deleteButton = this.container.querySelector('.card__button');
 
                 this.deleteButton.addEventListener('click', () => {
-                    this.events.emit('card:delete', { card: this });
+                    this.events.emit('card:delete', this);
                 })
 
                 break;
@@ -72,7 +72,6 @@ export class Card extends Component<ICard> {
         } else {
             this._price.textContent = price + ' синапсов';
         }
-
     }
 
     get price() {
@@ -80,7 +79,10 @@ export class Card extends Component<ICard> {
     }
 
     set category(category: TCategory) {
-        if (this._category) this._category.textContent = category;
+        if (this._category) {
+            this._category.textContent = category;
+            this.setCategoryClass();
+        };
     }
 
     get category() {
@@ -117,6 +119,18 @@ export class Card extends Component<ICard> {
 
     get indexLabel() {
         return this._indexLabel.textContent;
+    }
+
+    setCategoryClass() {
+        const categoryClassList: TCategoryClass = {
+            'софт-скил': 'card__category_soft',
+            'хард-скил': 'card__category_hard',
+            'другое': 'card__category_other',
+            'кнопка': 'card__category_button',
+            'дополнительное': 'card__category_additional',
+        }
+        this._category.classList.remove('card__category_soft');
+        this._category.classList.add(categoryClassList[this._category.textContent as TCategory]);
     }
 
     delete() {

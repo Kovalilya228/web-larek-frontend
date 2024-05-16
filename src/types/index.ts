@@ -4,7 +4,15 @@ interface IEvents {
     trigger<T extends object>(event: string, context?: Partial<T>): (data: T) => void;
 }
 
-export type TCategory = 'софт-скил' | 'другое' | 'дополнительное' | 'кнопка' | 'хард-скилл';
+export type TCategory = 'софт-скил' | 'другое' | 'дополнительное' | 'кнопка' | 'хард-скил';
+
+export type TCategoryClass = {
+    'софт-скил': 'card__category_soft',
+    'хард-скил': 'card__category_hard',
+    'другое': 'card__category_other',
+    'кнопка': 'card__category_button',
+    'дополнительное': 'card__category_additional',
+}
 
 export type TPaymentMethod = 'Онлайн' | 'При получении' | 'online' | 'offline';
 
@@ -15,7 +23,7 @@ export interface ICard {
     image: string;
     description: string;
     price: string;
-    index?: string
+    index?: string;
 }
 
 export interface IUser {
