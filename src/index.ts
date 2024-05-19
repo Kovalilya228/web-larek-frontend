@@ -3,7 +3,7 @@ import { BasketData } from './components/BasketData';
 import { CardsData } from './components/CardsData';
 import { OrderData } from './components/OrderData';
 import { UserData } from './components/UserData';
-import { ICard, IMakeOrder } from './types';
+import { ICard, IMakeOrder, IPostOrderApiResponse } from './types';
 import { API_URL } from './utils/constants';
 import './scss/styles.scss';
 import { LarekApi } from './components/base/LarekApi';
@@ -160,16 +160,20 @@ function makeOrder() {
     }
     larekApi.makeOrder(data)
         .then(res => {
-            if (res) events.emit('form:success');
+            clearInfoAfterOrder();
+            events.emit('form:success', res);
         })
         .catch(err => {
             console.log(err);
         })
 }
 
-function openSuccessForm() {
+function openSuccessForm(response: IPostOrderApiResponse) {
     const successForm = new Success(cloneTemplate(formSuccessTemplate), events, submitSuccessHandler);
-    modal.setContent(successForm.render({ price: String(basketData.totalPrice) }))
+    modal.setContent(successForm.render({ price: String(response.total) }))
+}
+
+function clearInfoAfterOrder() {
     basketData.deleteAllCards();
     checkBasketCards();
     basket.basketPrice = String(basketData.totalPrice);
